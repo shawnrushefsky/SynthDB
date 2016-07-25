@@ -1,5 +1,5 @@
 # SynthDB
-A fast JSON Graph Database built for billions of edges.
+A fast in-memory JSON Graph Database built for billions of edges.
 
 Check out the [documentation.](http://d.synthdb.io/docs).
 
