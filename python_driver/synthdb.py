@@ -538,7 +538,7 @@ class PreqlQuery(Runnable):
             }
         else:
             nq.body['walk_rules']['direction'].append('out')
-            nq.body['walk_rules']['distance'] += 1
+            nq.body['walk_rules']['dist'] += 1
         filt = {}
         if node is not None:
             filt['node'] = node
@@ -563,7 +563,7 @@ class PreqlQuery(Runnable):
             }
         else:
             nq.body['walk_rules']['direction'].append('in')
-            nq.body['walk_rules']['distance'] += 1
+            nq.body['walk_rules']['dist'] += 1
         filt = {}
         if node is not None:
             filt['node'] = node
