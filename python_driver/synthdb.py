@@ -194,6 +194,12 @@ def merge_objects(*dict_args):
     return result
 
 
+class update(Runnable):
+    def __init__(self):
+        Runnable.__init__(self)
+        self.q = 'server_update'
+
+
 class create_graph(Runnable):
     def __init__(self, graph_id):
         Runnable.__init__(self)
@@ -222,6 +228,7 @@ class Connection(object):
     def __init__(self, host="http://127.0.0.1:7796/", key=None, verify=False):
         self.host = host
         self.api = urljoin(host, 'preql/q')
+        self.update = urljoin(host, 'preql/update')
         self.error_params = ["SynthDB.connect('{}')".format(self.host), "No instance of SynthDB found at {}".format(self.host), self.host]
         self.key = key
         self.verify = verify
@@ -368,6 +375,8 @@ class Connection(object):
             headers['params'] = json.dumps(query_obj.params)
             r = self.__prepped_put_catch(
                 self.api, data=pickledumps(query_obj.body), headers=headers, stream=query_obj.stream)
+        elif q == "server_update":
+            r = self.__post_catch(self.update, headers=headers, data=None)
         if r:
             if query_obj.stream:
                 f, gen = self.__validate_stream(r)
