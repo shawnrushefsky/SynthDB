@@ -51,6 +51,7 @@ module.exports = function(){
         this.key = options.key;
         this.verify = options.verify;
         this.delim = "\t";
+        this.update = me.host+"preql/update";
 
         function stream_json (iterable, verbose){
             return function*(){
@@ -175,6 +176,9 @@ module.exports = function(){
                    "create_index", "walk", "fields"].indexOf(q) > -1){
                 headers.params = JSON.stringify(query.params);
                 put_catch(me.api, JSON.stringify(query.body), headers, callback, finished, query.stream);
+            }
+            else if(q === "server_update"){
+                post_catch(me.update, null, headers, callback);
             }
             else{
                 console.log("QUERY NOT SUPPORTED", query);
@@ -309,6 +313,11 @@ module.exports = function(){
     
     function isIterable(obj){
         return obj instanceof ([]).constructor || obj instanceof (function*(){}).constructor
+    }
+
+    function update(){
+        Runnable.call(this);
+        this.q = "server_update";
     }
 
     function unique(arr) {
@@ -840,6 +849,9 @@ module.exports = function(){
         },
         "listGraphs": function(){
             return new listGraphs();
+        },
+        "update": function(){
+            return new update();
         }
     }
 }();
